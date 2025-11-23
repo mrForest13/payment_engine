@@ -7,8 +7,8 @@ Simple payment engine. Supporting:
 - Chargeback
 
 ## Assumptions
-- Deposit amount cannot be less than 0
-- Withdrawal amount cannot be less than 0
+- Deposit amount cannot be 0
+- Withdrawal amount cannot be 0
 - Deposit amount cannot be negative
 - Withdrawal amount cannot be negative
 - Deposit precision has to be 4 or less
