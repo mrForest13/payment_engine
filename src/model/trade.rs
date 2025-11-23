@@ -3,7 +3,7 @@ use rust_decimal::Decimal;
 use serde::Deserialize;
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Deserialize)]
+#[derive(Debug, Clone, Copy, Hash, Eq, PartialEq, Deserialize)]
 pub struct TransactionId(pub u32);
 
 impl fmt::Display for TransactionId {
