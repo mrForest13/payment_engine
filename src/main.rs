@@ -1,6 +1,8 @@
 use payment_engine::errors::{EngineError, EngineResult};
+use payment_engine::input::csv::CsvReader;
+use payment_engine::input::reader::InputReader;
 use std::env;
-use tracing::info;
+use tracing::{info, warn};
 
 #[tokio::main]
 async fn main() -> EngineResult<()> {
@@ -9,6 +11,19 @@ async fn main() -> EngineResult<()> {
     let file = get_file_path()?;
 
     info!("Fetching {} file...", file);
+
+    let mut reader = CsvReader::new(&file)?;
+
+    while let Some(result) = reader.next() {
+        match result {
+            Ok(transaction) => {
+                info!("Processing transaction: {:?}", transaction);
+            }
+            Err(error) => {
+                warn!(?error, "Cannot deserialize transaction");
+            }
+        }
+    }
 
     Ok(())
 }

@@ -1,3 +1,3 @@
 mod account;
-mod client;
-mod trade;
+pub mod client;
+pub mod trade;

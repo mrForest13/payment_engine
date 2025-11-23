@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Deserialize)]
 pub struct ClientId(pub u16);
 
 impl fmt::Display for ClientId {

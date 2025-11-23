@@ -3,7 +3,7 @@ use rust_decimal::Decimal;
 use serde::Deserialize;
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Deserialize)]
 pub struct TransactionId(pub u32);
 
 impl fmt::Display for TransactionId {
@@ -12,28 +12,28 @@ impl fmt::Display for TransactionId {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum Transaction {
     Deposit {
         client: ClientId,
-        tx: TransactionId,
+        trade: TransactionId,
         amount: Decimal,
     },
     Withdrawal {
         client: ClientId,
-        tx: TransactionId,
+        trade: TransactionId,
         amount: Decimal,
     },
     Dispute {
         client: ClientId,
-        tx: TransactionId,
+        trade: TransactionId,
     },
     Resolve {
         client: ClientId,
-        tx: TransactionId,
+        trade: TransactionId,
     },
     Chargeback {
         client: ClientId,
-        tx: TransactionId,
+        trade: TransactionId,
     },
 }
