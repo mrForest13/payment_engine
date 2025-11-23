@@ -29,11 +29,11 @@ The system starts by loading a CSV file using [`CsvReader`](./src/input/csv.rs).
 
 ### Workers
 
-Next, the transactions are sent one by one to the engine, which maintains a pool of workers. The function used to select the appropriate worker is client_id % pool_size, which ensures that transactions for the same account are processed in order, while allowing different accounts to be processed in parallel.
+Next, the transactions are sent one by one to the [`PaymentEngine`](./src/core/engine.rs), which maintains a pool of workers. The function used to select the appropriate [`Worker`](./src/core/worker.rs) is `client_id % pool_size`, which ensures that transactions for the same `account` are processed in order, while allowing different accounts to be processed in `parallel`.
 
 ### Core Logic
 
-The [`AccountWallet`](./src/core/wallet.rs)  is responsible for applying individual transactions to a given account. It also stores the list of deposits and disputes associated with that account.
+The [`AccountWallet`](./src/core/wallet.rs) is responsible for applying individual transactions to a given `account`. It also stores the list of `deposits` and `disputes` associated with that account.
 
 ### Reporting
 
