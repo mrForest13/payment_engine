@@ -2,11 +2,11 @@ use crate::errors::EngineResult;
 use crate::input::reader::InputReader;
 use crate::input::row::TransactionRow;
 use crate::model::trade::Transaction;
-use csv::{Reader, ReaderBuilder};
+use csv::ReaderBuilder;
 use std::fs::File;
 
 pub struct CsvReader {
-    reader: Reader<File>,
+    iterator: csv::DeserializeRecordsIntoIter<File, TransactionRow>,
 }
 
 impl CsvReader {
@@ -20,16 +20,15 @@ impl CsvReader {
             .trim(csv::Trim::All)
             .from_reader(file);
 
-        Ok(CsvReader { reader })
+        Ok(CsvReader {
+            iterator: reader.into_deserialize::<TransactionRow>(),
+        })
     }
 }
 
 impl InputReader for CsvReader {
     fn next(&mut self) -> Option<EngineResult<Transaction>> {
-        self.reader
-            .deserialize::<TransactionRow>()
-            .next()
-            .map(to_dto_model)
+        self.iterator.next().map(to_dto_model)
     }
 }
 
