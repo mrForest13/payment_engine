@@ -37,3 +37,15 @@ pub enum Transaction {
         trade: TransactionId,
     },
 }
+
+impl Transaction {
+    pub fn client_id(&self) -> ClientId {
+        match self {
+            Transaction::Deposit { client, .. } => *client,
+            Transaction::Withdrawal { client, .. } => *client,
+            Transaction::Dispute { client, .. } => *client,
+            Transaction::Resolve { client, .. } => *client,
+            Transaction::Chargeback { client, .. } => *client,
+        }
+    }
+}

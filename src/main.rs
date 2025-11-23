@@ -1,3 +1,4 @@
+use payment_engine::core::engine::PaymentEngine;
 use payment_engine::errors::{EngineError, EngineResult};
 use payment_engine::input::csv::CsvReader;
 use payment_engine::input::reader::InputReader;
@@ -6,24 +7,29 @@ use tracing::{info, warn};
 
 #[tokio::main]
 async fn main() -> EngineResult<()> {
-    tracing_subscriber::fmt::init();
+    // tracing_subscriber::fmt::init();
 
     let file = get_file_path()?;
 
     info!("Fetching {} file...", file);
 
     let mut reader = CsvReader::new(&file)?;
+    let mut engine = PaymentEngine::default();
 
     while let Some(result) = reader.next() {
         match result {
             Ok(transaction) => {
-                info!("Processing transaction: {:?}", transaction);
+                engine.process(transaction).await?;
             }
             Err(error) => {
                 warn!(?error, "Cannot deserialize transaction");
             }
         }
     }
+
+    let report = engine.report().await?;
+
+    println!("{}", report);
 
     Ok(())
 }

@@ -24,6 +24,8 @@ pub enum EngineError {
     FileNotFound(String),
     #[error("Input file not provided")]
     InputNotProvided(),
+    #[error("Unknown payment core error")]
+    InternalError(),
 }
 
 impl From<std::io::Error> for EngineError {
