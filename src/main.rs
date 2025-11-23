@@ -27,9 +27,7 @@ async fn main() -> EngineResult<()> {
         }
     }
 
-    let report = engine.report().await?;
-
-    println!("{}", report);
+    println!("{}", engine.report().await?);
 
     Ok(())
 }
